@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">ContactsApp</string>
+    <string name="etUsername">Username</string>
+    <string name="etPassword">Password</string>
+    <string name="login_btnLogin">Login</string>
+    <string name="register_etAgain">Again</string>
+    <string name="etNickname">Nickname</string>
+    <string name="etEmail">Email</string>
+    <string name="btn_Addimage">Add Image</string>
+    <string name="etSignup">Sign up</string>
+    <string name="tv_signin">Sign in to GoChat</string>
+    <string name="login_btnSignup">Sign up</string>
+    <string name="tv_loginError">Wrong Username or Password!</string>
+    <string name="tv_register">Sign up to GoChat</string>
+    <string name="BaseUrl">http://10.0.2.2:7265/api/</string>
+    <string name="etTypeMessage">Type a message…</string>
+    <string name="etSend">Send</string>
+    <string name="btnAdd">Add</string>
+    <string name="etConnection">Server: http://10.0.2.2:xxxx</string>
+    <string name="btnSet">SET</string>
+</resources>
