@@ -4,18 +4,24 @@
     <string name="etPassword">Password</string>
     <string name="login_btnLogin">Login</string>
     <string name="register_etAgain">Again</string>
-    <string name="etNickname">Nickname</string>
-    <string name="etEmail">Email</string>
-    <string name="btn_Addimage">Add Image</string>
+    <string name="etPhoneNumber">Phone Number</string>
     <string name="etSignup">Sign up</string>
-    <string name="tv_signin">Sign in to GoChat</string>
+    <string name="tv_signin">Sign in</string>
     <string name="login_btnSignup">Sign up</string>
     <string name="tv_loginError">Wrong Username or Password!</string>
-    <string name="tv_register">Sign up to GoChat</string>
-    <string name="BaseUrl">http://10.0.2.2:7265/api/</string>
-    <string name="etTypeMessage">Type a message…</string>
-    <string name="etSend">Send</string>
+    <string name="tv_register">Sign up to ContactsApp</string>
     <string name="btnAdd">Add</string>
-    <string name="etConnection">Server: http://10.0.2.2:xxxx</string>
     <string name="btnSet">SET</string>
+    <string name="the_passwords_are_different">The passwords are different!</string>
+    <string name="tv_password_length">The password must be 8 characters or longer!</string>
+    <string name="tv_password_numeric">The password must contain at least ONE numeric character!</string>
+    <string name="tv_password_lowercase">The password must contain at least ONE lowercase character!</string>
+    <string name="tv_password_uppercase">The password must contain at least ONE uppercase character!</string>
+    <string name="tv_username_length">The username must be 3 characters or longer!</string>
+    <string name="invalid_username">Invalid username! Only letters and numbers are allowed.</string>
+    <string name="username_taken">Username is already in used.</string>
+    <string name="contact_name">Contact Name</string>
+    <string name="username_regex">[A-Za-z0-9]{3,30}$</string>
+    <string name="password_regex">[A-Za-z0-9]{4,30}$</string>
+
 </resources>
