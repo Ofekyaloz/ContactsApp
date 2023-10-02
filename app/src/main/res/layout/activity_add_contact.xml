@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.AddContactActivity"
     android:background="@drawable/background"
-    >
+    tools:context=".activities.AddContactActivity">
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -22,35 +22,35 @@
             android:layout_height="match_parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/easysale"
-            tools:ignore="MissingConstraints"
-            />
+            tools:ignore="MissingConstraints" />
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:paddingTop="50dp"
         android:orientation="vertical"
+        android:paddingTop="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="10dp">
 
         <TextView
-            android:paddingTop="10dp"
-            android:layout_marginBottom="5dp"
             android:id="@+id/tv_addContactError"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Error, make sure your details is valid"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:visibility="invisible"
-            android:textColor="@color/red"
+            android:layout_marginTop="16dp"
+            android:paddingTop="15dp"
             android:paddingBottom="15dp"
-            tools:visibility="visible"
-            />
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="@color/red"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            tools:text="Error"
+            tools:visibility="visible" />
 
         <EditText
             android:id="@+id/contactNameField"
@@ -76,22 +76,32 @@
             android:minHeight="48dp"
             android:textAlignment="center"
             android:textSize="20sp"
-            android:textStyle="bold"
-            />
-
+            android:textStyle="bold" />
 
 
         <Button
             android:id="@+id/btnSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/btnAdd"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/hollow_background"
-            android:textSize="20sp"
-            android:drawableEnd="@drawable/ic_add"
             android:layout_margin="10dp"
-            />
+            android:background="@drawable/hollow_background"
+            android:drawableEnd="@drawable/ic_add"
+            android:text="@string/btnAdd"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/hollow_background"
+            android:drawableEnd="@drawable/ic_delete"
+            android:enabled="false"
+            android:text="Delete"
+            android:textSize="20sp"
+            android:visibility="invisible"
+            tools:visibility="visible" />
 
     </LinearLayout>
 

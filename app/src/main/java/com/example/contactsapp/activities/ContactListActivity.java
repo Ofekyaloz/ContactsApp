@@ -8,6 +8,7 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.contactsapp.AppDB;
+import com.example.contactsapp.ContactAdapter;
 import com.example.contactsapp.R;
 import com.example.contactsapp.daos.ContactDao;
 import com.example.contactsapp.entities.Contact;
@@ -28,10 +29,9 @@ public class ContactListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_list);
         userid = getIntent().getExtras().getInt("userid");
-
         AppDB db = AppDB.getDBInstance(getApplicationContext());
-
         contactDao = db.contactDao();
+
         FloatingActionButton btnAddContact = findViewById(R.id.btnAddContact);
         btnAddContact.setOnClickListener(view -> {
             Intent intent = new Intent(this, AddContactActivity.class);
@@ -42,16 +42,16 @@ public class ContactListActivity extends AppCompatActivity {
         contacts = new ArrayList<>();
 
         ListView lvContacts = findViewById(R.id.lvContacts);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, contacts);
+        adapter = new ContactAdapter(this, contacts);
 
         lvContacts.setAdapter(adapter);
 
-        lvContacts.setOnItemLongClickListener(((adapterView, view, i, l) -> {
-            Contact contact = contacts.remove(i);
-            contactDao.delete(contact);
-            adapter.notifyDataSetChanged();
-            return true;
-        }));
+//        lvContacts.setOnItemLongClickListener(((adapterView, view, i, l) -> {
+//            Contact contact = contacts.remove(i);
+//            contactDao.delete(contact);
+//            adapter.notifyDataSetChanged();
+//            return true;
+//        }));
 
         lvContacts.setOnItemClickListener(((adapterView, view, i, l) -> {
             Intent intent = new Intent(this, AddContactActivity.class);

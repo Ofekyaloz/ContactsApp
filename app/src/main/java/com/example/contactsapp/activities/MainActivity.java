@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,9 @@ import java.util.regex.Pattern;
 public class MainActivity extends AppCompatActivity {
 
     private TextView loginError;
+    private EditText etUsername;
+    private EditText etPassword;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(activityMainBinding.getRoot());
 
         loginError = activityMainBinding.loginTvError;
+        etUsername = activityMainBinding.loginEtUsername;
+        etPassword = activityMainBinding.loginEtPassword;
+
 
         AppDB db = AppDB.getDBInstance(getApplicationContext());
         UserDao userDao = db.userDao();
@@ -34,13 +41,16 @@ public class MainActivity extends AppCompatActivity {
         Button btnSignup = activityMainBinding.btnGotoRegister;
         btnSignup.setOnClickListener(v -> {
             Intent intent = new Intent(this, RegisterActivity.class);
+            loginError.setVisibility(View.INVISIBLE);
+            etUsername.setText("");
+            etPassword.setText("");
             startActivity(intent);
         });
 
         Button btnLogin = activityMainBinding.btnLogin;
         btnLogin.setOnClickListener(view -> {
-            String username = findViewById(R.id.login_etUsername).toString();
-            String password = findViewById(R.id.login_etPassword).toString();
+            String username = etUsername.getText().toString();
+            String password = etPassword.getText().toString();
             if (!Pattern.matches(getString(R.string.username_regex), username) ||
                     !Pattern.matches(getString(R.string.password_regex), password)) {
                 loginError.setVisibility(View.VISIBLE);
@@ -48,14 +58,16 @@ public class MainActivity extends AppCompatActivity {
             }
 
             User user = userDao.get(username);
-            if (user != null) {
-                if (password.equals(user.getPassword())) {
-                    Intent intent = new Intent(this, ContactListActivity.class);
-                    intent.putExtra("userid", user.getUserid());
-                    startActivity(intent);
-                }
+            if (user != null && password.equals(user.getPassword())) {
+                Intent intent = new Intent(this, ContactListActivity.class);
+                intent.putExtra("userid", user.getUserid());
+                loginError.setVisibility(View.INVISIBLE);
+                etUsername.setText("");
+                etPassword.setText("");
+                startActivity(intent);
+            } else {
+                loginError.setVisibility(View.VISIBLE);
             }
-            loginError.setVisibility(View.VISIBLE);
         });
     }
 

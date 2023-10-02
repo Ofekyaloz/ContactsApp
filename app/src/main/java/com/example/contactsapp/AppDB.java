@@ -12,7 +12,7 @@ import com.example.contactsapp.entities.Contact;
 import com.example.contactsapp.entities.User;
 
 
-@Database(entities = {Contact.class, User.class}, version = 2)
+@Database(entities = {Contact.class, User.class}, version = 3)
 public abstract class AppDB extends RoomDatabase {
     public abstract ContactDao contactDao();
     public abstract UserDao userDao();
