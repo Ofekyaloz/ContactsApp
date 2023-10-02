@@ -71,7 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
             tvError.setText("Password is too long! Please enter a password with 20 characters or fewer.");
             return false;
         }
-        if (username.length() < 3) {
+        if (username.length() < 2) {
             tvError.setText(R.string.tv_username_length);
             return false;
         }

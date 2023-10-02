@@ -38,6 +38,23 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
         contactName.setText(contact.getName());
         phoneNumber.setText(contact.getNumber());
 
+        TextView genderTv = convertView.findViewById(R.id.contactGenderTextView);
+        String gender = contact.getGender();
+        if (!gender.isEmpty()) {
+            genderTv.setVisibility(View.VISIBLE);
+            genderTv.setText(gender);
+        } else {
+            genderTv.setVisibility(View.GONE);
+        }
+        TextView birthdayTv = convertView.findViewById(R.id.contactBirthdayTextView);
+        String birthday = contact.getBirthday();
+        if (!birthday.isEmpty()) {
+            birthdayTv.setVisibility(View.VISIBLE);
+            birthdayTv.setText(birthday);
+        } else {
+            birthdayTv.setVisibility(View.GONE);
+        }
+
         return convertView;
     }
 }
