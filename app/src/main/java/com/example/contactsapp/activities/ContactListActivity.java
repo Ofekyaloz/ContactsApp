@@ -74,14 +74,6 @@ public class ContactListActivity extends AppCompatActivity {
         adapter = new ContactAdapter(this, contacts, getIntent().getExtras().getBooleanArray("settings"));
 
         lvContacts.setAdapter(adapter);
-
-//        lvContacts.setOnItemLongClickListener(((adapterView, view, i, l) -> {
-//            Contact contact = contacts.remove(i);
-//            contactDao.delete(contact);
-//            adapter.notifyDataSetChanged();
-//            return true;
-//        }));
-
         lvContacts.setOnItemClickListener(((adapterView, view, i, l) -> {
             Intent intent = new Intent(this, AddContactActivity.class);
             intent.putExtra("id", contacts.get(i).getId());

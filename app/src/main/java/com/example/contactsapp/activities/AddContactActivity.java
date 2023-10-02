@@ -3,7 +3,10 @@ package com.example.contactsapp.activities;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -14,13 +17,25 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.contactsapp.AppDB;
+import com.example.contactsapp.GenderResponse;
 import com.example.contactsapp.R;
+import com.example.contactsapp.api.WebServiceApi;
 import com.example.contactsapp.daos.ContactDao;
 import com.example.contactsapp.entities.Contact;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AddContactActivity extends AppCompatActivity {
 
@@ -31,6 +46,7 @@ public class AddContactActivity extends AppCompatActivity {
     private int userid;
     private EditText birthdayField;
     private String selectedDate = "";
+    private Spinner genderSpinner;
     private String gender;
 
     @Override
@@ -47,7 +63,7 @@ public class AddContactActivity extends AppCompatActivity {
         Button btnDelete = findViewById(R.id.btnDelete);
         Button btnCancel = findViewById(R.id.btnCancel);
         TextView tvError = findViewById(R.id.tv_addContactError);
-        Spinner genderSpinner = findViewById(R.id.genderSpinner);
+        genderSpinner = findViewById(R.id.genderSpinner);
 
 
         birthdayField = findViewById(R.id.birthdayField);
@@ -69,6 +85,7 @@ public class AddContactActivity extends AppCompatActivity {
             btnDelete.setEnabled(true);
             btnCancel.setVisibility(View.VISIBLE);
             btnCancel.setEnabled(true);
+            btnSave.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_edit, 0);
             selectedDate = contact.getBirthday();
             if (!selectedDate.isEmpty()) {
                 birthdayField.setText(selectedDate);
@@ -93,6 +110,36 @@ public class AddContactActivity extends AppCompatActivity {
 
         btnDelete.setOnClickListener(view -> {
             showDeleteConfirmationDialog();
+        });
+
+        etContactName.addTextChangedListener(new TextWatcher() {
+            private final long DELAY = 2000;
+            private Timer timer = new Timer();
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Do nothing
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Do nothing
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                timer.cancel();
+                timer = new Timer();
+                timer.schedule(
+                        new TimerTask() {
+                            @Override
+                            public void run() {
+                                String typedText = editable.toString();
+                                findGender(typedText.toLowerCase());
+                            }
+                        },
+                        DELAY);
+            }
         });
 
         btnSave.setOnClickListener(view -> {
@@ -132,6 +179,45 @@ public class AddContactActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parentView) {
             }
         });
+    }
+
+    private void findGender(String name) {
+        new Thread(() -> {
+            Gson gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("https://api.genderize.io/?name=")
+                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .build();
+            WebServiceApi webServiceApi = retrofit.create(WebServiceApi.class);
+            Call<GenderResponse> call = webServiceApi.getGender(name);
+            call.enqueue(new Callback<GenderResponse>() {
+                @Override
+                public void onResponse(Call<GenderResponse> call, Response<GenderResponse> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        String gender = response.body().getGender();
+                        if (gender.equals("male")) {
+                            genderSpinner.setSelection(1);
+                        } else if (gender.equals("female")) {
+                            genderSpinner.setSelection(2);
+                        } else {
+                            genderSpinner.setSelection(0);
+                        }
+                    } else {
+                        // Handle unsuccessful response here
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<GenderResponse> call, Throwable t) {
+                    Log.e("API Call", "Failed: " + t.getMessage());
+                    t.printStackTrace(); // Print the exception trace to see the detailed error message in the console
+                }
+
+
+            });
+        }).start();
     }
 
     private void showDeleteConfirmationDialog() {
