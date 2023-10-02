@@ -12,11 +12,13 @@ public class User {
     private String username;
     @NonNull
     private String password;
+    private String settings;
 
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+        this.settings = "TTTT";
     }
 
     public int getUserid() {
@@ -42,5 +44,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getSettings() {
+        return settings;
+    }
+
+    public void setSettings(String settings) {
+        this.settings = settings;
     }
 }

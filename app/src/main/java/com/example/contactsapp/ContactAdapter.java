@@ -15,11 +15,18 @@ import com.example.contactsapp.entities.Contact;
 import java.util.List;
 
 public class ContactAdapter extends ArrayAdapter<Contact> {
-    LayoutInflater inflater;
+    private LayoutInflater inflater;
+    private boolean[] settings;
 
-    public ContactAdapter(Context ctx, List<Contact> userArrayList) {
+    public ContactAdapter(Context ctx, List<Contact> userArrayList, boolean[] settings) {
         super(ctx, R.layout.contact_item, userArrayList);
         this.inflater = LayoutInflater.from(ctx);
+        this.settings = settings;
+    }
+
+    public void setSettings(boolean[] settings) {
+        this.settings = settings;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -33,26 +40,37 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
         }
 
         TextView contactName = convertView.findViewById(R.id.contactNameTextView);
-        TextView phoneNumber = convertView.findViewById(R.id.contactPhoneNumberTextView);
-
-        contactName.setText(contact.getName());
-        phoneNumber.setText(contact.getNumber());
-
-        TextView genderTv = convertView.findViewById(R.id.contactGenderTextView);
-        String gender = contact.getGender();
-        if (!gender.isEmpty()) {
-            genderTv.setVisibility(View.VISIBLE);
-            genderTv.setText(gender);
+        if (settings[0]) {
+            contactName.setText(contact.getName());
+            contactName.setVisibility(View.VISIBLE);
         } else {
-            genderTv.setVisibility(View.GONE);
+            contactName.setVisibility(View.GONE);
         }
+
+        TextView phoneNumber = convertView.findViewById(R.id.contactPhoneNumberTextView);
+        if (settings[1]) {
+            phoneNumber.setText(contact.getNumber());
+            phoneNumber.setVisibility(View.VISIBLE);
+        } else {
+            phoneNumber.setVisibility(View.GONE);
+        }
+
         TextView birthdayTv = convertView.findViewById(R.id.contactBirthdayTextView);
         String birthday = contact.getBirthday();
-        if (!birthday.isEmpty()) {
+        if (settings[2] && !birthday.isEmpty()) {
             birthdayTv.setVisibility(View.VISIBLE);
             birthdayTv.setText(birthday);
         } else {
             birthdayTv.setVisibility(View.GONE);
+        }
+
+        TextView genderTv = convertView.findViewById(R.id.contactGenderTextView);
+        String gender = contact.getGender();
+        if (settings[3] && !gender.isEmpty()) {
+            genderTv.setVisibility(View.VISIBLE);
+            genderTv.setText(gender);
+        } else {
+            genderTv.setVisibility(View.GONE);
         }
 
         return convertView;

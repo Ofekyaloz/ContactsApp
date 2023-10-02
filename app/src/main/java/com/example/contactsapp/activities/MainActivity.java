@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.contactsapp.AppDB;
+import com.example.contactsapp.Converters;
 import com.example.contactsapp.R;
 import com.example.contactsapp.daos.UserDao;
 import com.example.contactsapp.databinding.ActivityMainBinding;
@@ -61,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
             if (user != null && password.equals(user.getPassword())) {
                 Intent intent = new Intent(this, ContactListActivity.class);
                 intent.putExtra("userid", user.getUserid());
+                intent.putExtra("username", user.getUsername());
+                intent.putExtra("settings", Converters.toBooleanArray(user.getSettings()));
+
                 loginError.setVisibility(View.INVISIBLE);
                 etUsername.setText("");
                 etPassword.setText("");
