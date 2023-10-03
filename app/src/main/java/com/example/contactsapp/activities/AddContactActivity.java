@@ -65,7 +65,6 @@ public class AddContactActivity extends AppCompatActivity {
         TextView tvError = findViewById(R.id.tv_addContactError);
         genderSpinner = findViewById(R.id.genderSpinner);
 
-
         birthdayField = findViewById(R.id.birthdayField);
         birthdayField.setOnClickListener(v -> {
             if (!selectedDate.isEmpty()) {
@@ -113,7 +112,6 @@ public class AddContactActivity extends AppCompatActivity {
         });
 
         etContactName.addTextChangedListener(new TextWatcher() {
-            private final long DELAY = 2000;
             private Timer timer = new Timer();
 
             @Override
@@ -130,6 +128,7 @@ public class AddContactActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 timer.cancel();
                 timer = new Timer();
+                long DELAY = 2000;
                 timer.schedule(
                         new TimerTask() {
                             @Override
@@ -159,6 +158,7 @@ public class AddContactActivity extends AppCompatActivity {
             } else {
                 Contact newContact = new Contact(contactName, contactNumber, userid);
                 newContact.setBirthday(selectedDate);
+                newContact.setGender(gender);
                 newContact.setGender(gender);
                 contactDao.insert(newContact);
             }
@@ -197,6 +197,9 @@ public class AddContactActivity extends AppCompatActivity {
                 public void onResponse(Call<GenderResponse> call, Response<GenderResponse> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         String gender = response.body().getGender();
+                        if (gender == null) {
+                            return;
+                        }
                         if (gender.equals("male")) {
                             genderSpinner.setSelection(1);
                         } else if (gender.equals("female")) {
@@ -204,18 +207,14 @@ public class AddContactActivity extends AppCompatActivity {
                         } else {
                             genderSpinner.setSelection(0);
                         }
-                    } else {
-                        // Handle unsuccessful response here
                     }
                 }
 
                 @Override
                 public void onFailure(Call<GenderResponse> call, Throwable t) {
                     Log.e("API Call", "Failed: " + t.getMessage());
-                    t.printStackTrace(); // Print the exception trace to see the detailed error message in the console
+                    t.printStackTrace();
                 }
-
-
             });
         }).start();
     }
@@ -267,19 +266,19 @@ public class AddContactActivity extends AppCompatActivity {
 
     private boolean isValidInput(TextView tvError, String contactName, String contactNumber) {
         if (contactName.length() < 2) {
-            tvError.setText("Contact Name must be two characters or longer!");
+            tvError.setText(R.string.tv_contactname_min_length);
             return false;
         }
         if (contactName.length() > 20) {
-            tvError.setText("Contact name is too long!\nPlease enter a name with 20 characters or fewer.");
+            tvError.setText(R.string.tv_contactname_max_length);
             return false;
         }
-        if (!Pattern.matches("[A-Za-z ]+", contactName)) {
-            tvError.setText("Contact name must contain only letters!");
+        if (!Pattern.matches(getString(R.string.contact_name_regex), contactName)) {
+            tvError.setText(R.string.tv_contactname_only_letters);
             return false;
         }
-        if (!Pattern.matches("^[0-9]{10}$", contactNumber)) {
-            tvError.setText("Invalid phone number!\n Please enter a 10-digit numeric phone number.");
+        if (!Pattern.matches(getString(R.string.phone_number_validation), contactNumber)) {
+            tvError.setText(R.string.tv_invalid_phone_number);
             return false;
         }
         return true;

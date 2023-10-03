@@ -106,13 +106,14 @@
             android:text="@string/etSignup"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:background="@drawable/hollow_background"
+            android:background="@drawable/green_btn"
+            android:padding="15dp"
             android:drawableEnd="@drawable/ic_signup"
             android:fontFamily="sans-serif-black"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="20sp"
-            />
+            android:drawablePadding="8dp" />
 
     </LinearLayout>
 

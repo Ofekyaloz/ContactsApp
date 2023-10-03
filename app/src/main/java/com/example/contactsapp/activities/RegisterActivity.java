@@ -52,7 +52,11 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
         if (password.length() < 8) {
-            tvError.setText(R.string.tv_password_length);
+            tvError.setText(R.string.tv_password_min_length);
+            return false;
+        }
+        if (password.length() > 20) {
+            tvError.setText(R.string.tv_password_max_length);
             return false;
         }
         if (!Pattern.matches(".*[0-9].*", password)) {
@@ -67,19 +71,15 @@ public class RegisterActivity extends AppCompatActivity {
             tvError.setText(R.string.tv_password_uppercase);
             return false;
         }
-        if (password.length() > 20) {
-            tvError.setText("Password is too long! Please enter a password with 20 characters or fewer.");
-            return false;
-        }
         if (username.length() < 2) {
-            tvError.setText(R.string.tv_username_length);
+            tvError.setText(R.string.tv_username_min_length);
             return false;
         }
         if (username.length() > 20) {
-            tvError.setText("Username is too long! Please enter a name with 20 characters or fewer.");
+            tvError.setText(R.string.tv_username_max_length);
             return false;
         }
-        if (!Pattern.matches("[A-Za-z0-9]+", username)) {
+        if (!Pattern.matches(String.valueOf(R.string.username_regex), username)) {
             tvError.setText(R.string.invalid_username);
             return false;
         }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -64,13 +65,25 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
             birthdayTv.setVisibility(View.GONE);
         }
 
+        ImageView iv_gender = convertView.findViewById(R.id.iv_gender);
         TextView genderTv = convertView.findViewById(R.id.contactGenderTextView);
         String gender = contact.getGender();
         if (settings[3] && !gender.isEmpty()) {
             genderTv.setVisibility(View.VISIBLE);
             genderTv.setText(gender);
+            if (gender.equals("Male")) {
+                iv_gender.setImageResource(R.drawable.male_icon);
+                iv_gender.setVisibility(View.VISIBLE);
+            } else if (gender.equals("Female")) {
+                iv_gender.setImageResource(R.drawable.female_icon);
+                iv_gender.setVisibility(View.VISIBLE);
+            } else {
+                iv_gender.setVisibility(View.GONE);
+            }
         } else {
             genderTv.setVisibility(View.GONE);
+            iv_gender.setVisibility(View.GONE);
+
         }
 
         return convertView;
