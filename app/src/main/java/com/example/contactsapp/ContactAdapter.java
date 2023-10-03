@@ -74,16 +74,19 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
             if (gender.equals("Male")) {
                 iv_gender.setImageResource(R.drawable.male_icon);
                 iv_gender.setVisibility(View.VISIBLE);
+                convertView.setBackgroundColor(getContext().getResources().getColor(R.color.blue));
             } else if (gender.equals("Female")) {
                 iv_gender.setImageResource(R.drawable.female_icon);
                 iv_gender.setVisibility(View.VISIBLE);
+                convertView.setBackgroundColor(getContext().getResources().getColor(R.color.purple_200));
             } else {
-                iv_gender.setVisibility(View.GONE);
+                iv_gender.setVisibility(View.INVISIBLE);
+                convertView.setBackgroundColor(getContext().getResources().getColor(R.color.green));
             }
         } else {
             genderTv.setVisibility(View.GONE);
-            iv_gender.setVisibility(View.GONE);
-
+            iv_gender.setVisibility(View.INVISIBLE);
+            convertView.setBackgroundColor(getContext().getResources().getColor(R.color.green));
         }
 
         return convertView;

@@ -29,6 +29,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="16dp"
@@ -42,6 +43,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="20dp"
             android:text="User's Name"
+            android:textColor="@color/black"
             android:textSize="24sp" />
 
         <LinearLayout
@@ -56,6 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:text="Show Contact Name"
+                android:textColor="@color/black"
                 android:textSize="18sp" />
 
             <androidx.appcompat.widget.SwitchCompat
@@ -80,6 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:text="Show Contact Number"
+                android:textColor="@color/black"
                 android:textSize="18sp" />
 
             <androidx.appcompat.widget.SwitchCompat
@@ -104,6 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:text="Show Gender"
+                android:textColor="@color/black"
                 android:textSize="18sp" />
 
             <androidx.appcompat.widget.SwitchCompat
@@ -128,6 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:text="Show Birthday"
+                android:textColor="@color/black"
                 android:textSize="18sp" />
 
             <androidx.appcompat.widget.SwitchCompat
@@ -155,14 +161,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:background="@drawable/light_red_btn"
-                android:padding="15dp"
-                android:drawablePadding="8dp"
-                android:drawableLeft="@drawable/ic_cancel"
-                android:text="@string/btnCancel"
-                android:textSize="20sp"
                 android:layout_weight="1"
-                />
+                android:background="@drawable/light_red_btn"
+                android:drawableLeft="@drawable/ic_cancel"
+                android:drawablePadding="8dp"
+                android:padding="15dp"
+                android:text="@string/btnCancel"
+                android:textSize="20sp" />
 
             <Button
                 android:id="@+id/btnSaveSettings"
@@ -170,14 +175,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
+                android:layout_weight="1"
                 android:background="@drawable/dark_blue_btn"
-                android:padding="15dp"
                 android:drawableEnd="@drawable/ic_add"
                 android:drawablePadding="8dp"
+                android:padding="15dp"
                 android:text="@string/btnAdd"
-                android:textSize="20sp"
-                android:layout_weight="1"
-                />
+                android:textSize="20sp" />
         </LinearLayout>
 
     </LinearLayout>

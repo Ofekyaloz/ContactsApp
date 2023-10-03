@@ -90,7 +90,7 @@
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:padding="15dp"
-            android:background="@drawable/red_btn"
+            android:background="@drawable/dark_blue_btn"
             android:drawableEnd="@drawable/ic_login"
             android:fontFamily="sans-serif-black"
             android:text="@string/login_btnLogin"
