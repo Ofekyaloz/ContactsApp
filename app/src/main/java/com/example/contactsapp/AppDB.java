@@ -17,6 +17,7 @@ import com.example.contactsapp.entities.User;
 @TypeConverters(Converters.class)
 public abstract class AppDB extends RoomDatabase {
     public abstract ContactDao contactDao();
+
     public abstract UserDao userDao();
 
     private static volatile AppDB INSTANCE;

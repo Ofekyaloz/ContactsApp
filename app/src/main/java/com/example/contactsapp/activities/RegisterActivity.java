@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.contactsapp.AppDB;
@@ -23,7 +24,9 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         registerBinding = ActivityRegisterBinding.inflate(getLayoutInflater());
-
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.hide();
         setContentView(registerBinding.getRoot());
 
         AppDB db = AppDB.getDBInstance(getApplicationContext());
@@ -79,7 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
             tvError.setText(R.string.tv_username_max_length);
             return false;
         }
-        if (!Pattern.matches(String.valueOf(R.string.username_regex), username)) {
+        if (!Pattern.matches(getString(R.string.username_regex), username)) {
             tvError.setText(R.string.invalid_username);
             return false;
         }
