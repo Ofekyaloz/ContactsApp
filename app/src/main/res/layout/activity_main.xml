@@ -65,10 +65,17 @@
             android:ems="10"
             android:hint="@string/etUsername"
             android:inputType="textPersonName"
-            android:minHeight="48dp"
             android:textAlignment="center"
+
+            android:minHeight="48dp"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:background="@drawable/edit_box"
+            android:drawablePadding="20dp"
+            android:drawableStart="@drawable/ic_user"
+            android:layout_margin="15dp"
+            android:padding="12dp"
+            />
 
         <EditText
             android:id="@+id/login_etPassword"
@@ -79,9 +86,14 @@
             android:hint="@string/etPassword"
             android:inputType="textPassword"
             android:minHeight="48dp"
-            android:textAlignment="center"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:background="@drawable/edit_box"
+            android:drawablePadding="20dp"
+            android:layout_margin="15dp"
+            android:padding="12dp"
+            android:drawableStart="@drawable/ic_password"/>
 
         <Button
             android:id="@+id/btnLogin"
