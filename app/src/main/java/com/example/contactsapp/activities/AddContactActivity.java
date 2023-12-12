@@ -2,7 +2,10 @@ package com.example.contactsapp.activities;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -11,12 +14,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.contactsapp.AppDB;
 import com.example.contactsapp.GenderResponse;
 import com.example.contactsapp.R;
@@ -28,6 +33,7 @@ import com.google.gson.GsonBuilder;
 
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Pattern;
@@ -50,6 +56,15 @@ public class AddContactActivity extends AppCompatActivity {
     private Spinner genderSpinner;
     private String gender;
 
+    private String photo = "";
+
+    private ImageView ivContact;
+
+    private Button btnDeletePhoto;
+
+    private static final int PICK_IMAGE_REQUEST = 1; // You can use any unique value
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +80,9 @@ public class AddContactActivity extends AppCompatActivity {
         Button btnSave = findViewById(R.id.btnSave);
         Button btnDelete = findViewById(R.id.btnDelete);
         Button btnCancel = findViewById(R.id.btnCancel);
+        btnDeletePhoto = findViewById(R.id.btnDeletePhoto);
         TextView tvError = findViewById(R.id.tv_addContactError);
+        ivContact = findViewById(R.id.iv_contact);
         genderSpinner = findViewById(R.id.genderSpinner);
 
         birthdayField = findViewById(R.id.birthdayField);
@@ -83,6 +100,19 @@ public class AddContactActivity extends AppCompatActivity {
         if (contact != null) {
             etContactName.setText(contact.getName());
             etPhoneNumber.setText(contact.getNumber());
+
+            photo = contact.getPhotoPath();
+            if (!photo.isEmpty()) {
+                Uri photoUri = Uri.parse(photo);
+                Glide.with(this).load(photoUri).into(ivContact);
+                ivContact.setVisibility(View.VISIBLE);
+                btnDeletePhoto.setEnabled(true);
+            }
+            else {
+                btnDeletePhoto.setEnabled(false);
+                ivContact.setVisibility(View.GONE);
+            }
+
             btnDelete.setVisibility(View.VISIBLE);
             btnDelete.setEnabled(true);
             btnCancel.setVisibility(View.VISIBLE);
@@ -94,6 +124,7 @@ public class AddContactActivity extends AppCompatActivity {
             } else {
                 birthdayField.setText(R.string.birthday_text);
             }
+
             String[] genderOptions = getResources().getStringArray(R.array.gender_options);
             String selectedGender = contact.getGender();
             int genderIndex = -1;
@@ -156,12 +187,12 @@ public class AddContactActivity extends AppCompatActivity {
                 contact.setNumber(contactNumber);
                 contact.setBirthday(selectedDate);
                 contact.setGender(gender);
+                contact.setPhotoPath(photo);
                 contactDao.update(contact);
 
             } else {
-                Contact newContact = new Contact(contactName, contactNumber, userid);
+                Contact newContact = new Contact(contactName, contactNumber, userid, photo);
                 newContact.setBirthday(selectedDate);
-                newContact.setGender(gender);
                 newContact.setGender(gender);
                 contactDao.insert(newContact);
             }
@@ -182,6 +213,38 @@ public class AddContactActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parentView) {
             }
         });
+
+        btnDeletePhoto.setOnClickListener(v -> {
+            photo = "";
+            btnDeletePhoto.setEnabled(false);
+            ivContact.setVisibility(View.GONE);
+        });
+
+
+        Button btnUploadPhoto = findViewById(R.id.btnUploadPhoto);
+        btnUploadPhoto.setOnClickListener(view -> {
+            openGallery();
+        });
+
+    }
+
+    private void openGallery() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+            photo = Objects.requireNonNull(data.getData()).toString();
+            Uri photoUri = Uri.parse(photo);
+            Glide.with(this)
+                    .load(photoUri)
+                    .into(ivContact);
+            ivContact.setVisibility(View.VISIBLE);
+            btnDeletePhoto.setEnabled(true);
+        }
     }
 
     private void findGender(String name) {

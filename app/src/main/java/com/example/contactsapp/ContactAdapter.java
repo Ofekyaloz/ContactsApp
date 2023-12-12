@@ -1,6 +1,7 @@
 package com.example.contactsapp;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.bumptech.glide.Glide;
 
 import com.example.contactsapp.entities.Contact;
 
@@ -68,6 +71,7 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
         ImageView iv_gender = convertView.findViewById(R.id.iv_gender);
         TextView genderTv = convertView.findViewById(R.id.contactGenderTextView);
         String gender = contact.getGender();
+
         if (settings[3] && !gender.isEmpty()) {
             genderTv.setVisibility(View.VISIBLE);
             genderTv.setText(gender);
@@ -80,14 +84,22 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
                 iv_gender.setVisibility(View.VISIBLE);
                 convertView.setBackgroundColor(getContext().getResources().getColor(R.color.purple_200));
             } else {
-                iv_gender.setVisibility(View.INVISIBLE);
                 convertView.setBackgroundColor(getContext().getResources().getColor(R.color.green));
+                iv_gender.setVisibility(View.INVISIBLE);
             }
         } else {
             genderTv.setVisibility(View.GONE);
-            iv_gender.setVisibility(View.INVISIBLE);
             convertView.setBackgroundColor(getContext().getResources().getColor(R.color.green));
+            iv_gender.setVisibility(View.INVISIBLE);
         }
+
+        String photo = contact.getPhotoPath();
+        if (!photo.isEmpty() && settings[3]) {
+            Uri photoUri = Uri.parse(photo);
+            Glide.with(getContext()).load(photoUri).into(iv_gender);
+            iv_gender.setVisibility(View.VISIBLE);
+        }
+
 
         return convertView;
     }

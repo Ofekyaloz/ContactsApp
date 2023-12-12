@@ -42,9 +42,22 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="20dp"
-            android:text="User's Name"
+            tools:text="User's Name"
             android:textColor="@color/black"
             android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/settings_tvError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
+            android:text="At least one option must checked"
+            android:textAlignment="center"
+            android:textColor="@color/red"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            tools:visibility="visible" />
 
         <LinearLayout
             android:layout_width="match_parent"

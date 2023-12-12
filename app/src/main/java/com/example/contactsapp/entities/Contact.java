@@ -13,21 +13,24 @@ public class Contact {
     @PrimaryKey(autoGenerate = true)
     private int id;
     @NonNull
-    private int userid;
+    private final int userid;
     @NonNull
     private String name;
     @NonNull
     private String number;
     private String gender;
     private String birthday;
+    private String photoPath;
 
-    public Contact(@NonNull String name, @NonNull String number, int userid) {
+    public Contact(@NonNull String name, @NonNull String number, int userid, String photoPath) {
         this.name = name;
         this.number = number;
         this.userid = userid;
         this.birthday = "";
         this.gender = "";
+        this.photoPath = photoPath;
     }
+
 
     public String getGender() {
         return gender;
@@ -73,6 +76,14 @@ public class Contact {
 
     public void setNumber(@NonNull String number) {
         this.number = number;
+    }
+
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.contactsapp.activities;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ public class SettingsActivity extends AppCompatActivity {
     private boolean visibilityOfGender;
     private String username;
     private boolean[] settings;
+    private TextView settingsError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class SettingsActivity extends AppCompatActivity {
         birthdaySwitch.setChecked(visibilityOfBirthday);
         visibilityOfGender = settings[3];
         genderSwitch.setChecked(visibilityOfGender);
+        settingsError = findViewById(R.id.settings_tvError);
 
         contactNameSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             visibilityOfName = isChecked;
@@ -68,6 +71,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         Button btnSave = findViewById(R.id.btnSaveSettings);
         btnSave.setOnClickListener(view -> {
+            if (!visibilityOfName && !visibilityOfNumber && !visibilityOfBirthday && !visibilityOfGender ) {
+                settingsError.setVisibility(View.VISIBLE);
+                return;
+            }
             AppDB db = AppDB.getDBInstance(getApplicationContext());
             UserDao userDao = db.userDao();
             User user = userDao.get(username);
