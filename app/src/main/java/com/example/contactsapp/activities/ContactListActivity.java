@@ -1,6 +1,8 @@
 package com.example.contactsapp.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -10,10 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.contactsapp.AppDB;
 import com.example.contactsapp.ContactAdapter;
-import com.example.contactsapp.Converters;
 import com.example.contactsapp.R;
 import com.example.contactsapp.daos.ContactDao;
-import com.example.contactsapp.daos.UserDao;
 import com.example.contactsapp.entities.Contact;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -21,14 +21,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ContactListActivity extends AppCompatActivity {
-
     private ContactDao contactDao;
-    private UserDao userDao;
     private List<Contact> contacts;
     private ContactAdapter adapter;
     private int userid;
     private String username;
     private boolean[] settings;
+    String[] settingOptions;
+    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +36,14 @@ public class ContactListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_contact_list);
         AppDB db = AppDB.getDBInstance(getApplicationContext());
         contactDao = db.contactDao();
-        userDao = db.userDao();
-
         userid = getIntent().getExtras().getInt("userid");
         username = getIntent().getExtras().getString("username");
-        settings = Converters.toBooleanArray(userDao.get(username).getSettings());
 
+        sharedPref = getSharedPreferences(username, Context.MODE_PRIVATE);
+        settingOptions = getResources().getStringArray(R.array.settings_options);
+        int n = settingOptions.length;
+        settings = new boolean[n];
+        getSettings(settingOptions, n);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -82,12 +84,18 @@ public class ContactListActivity extends AppCompatActivity {
         }));
     }
 
+    private void getSettings(String[] settingOptions, int n) {
+        for (int i = 0; i < n; i++) {
+            settings[i] = sharedPref.getBoolean(settingOptions[i], true);
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         contacts.clear();
         contacts.addAll(contactDao.getContacts(userid));
-        settings = Converters.toBooleanArray(userDao.get(username).getSettings());
+        getSettings(settingOptions, settingOptions.length);
         adapter.setSettings(settings);
         adapter.notifyDataSetChanged();
     }

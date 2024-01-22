@@ -30,7 +30,6 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
 
     public void setSettings(boolean[] settings) {
         this.settings = settings;
-        notifyDataSetChanged();
     }
 
     @NonNull

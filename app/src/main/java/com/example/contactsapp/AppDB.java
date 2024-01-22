@@ -13,7 +13,7 @@ import com.example.contactsapp.entities.Contact;
 import com.example.contactsapp.entities.User;
 
 
-@Database(entities = {Contact.class, User.class}, version = 5)
+@Database(entities = {Contact.class, User.class}, version = 6)
 @TypeConverters(Converters.class)
 public abstract class AppDB extends RoomDatabase {
     public abstract ContactDao contactDao();

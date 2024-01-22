@@ -6,4 +6,11 @@
         <item>Female</item>
         <item>Other</item>
     </array>
+
+    <array name="settings_options">
+        <item>name</item>
+        <item>number</item>
+        <item>birthday</item>
+        <item>gender</item>
+    </array>
 </resources>

@@ -11,7 +11,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.contactsapp.AppDB;
-import com.example.contactsapp.Converters;
 import com.example.contactsapp.R;
 import com.example.contactsapp.daos.UserDao;
 import com.example.contactsapp.databinding.ActivityMainBinding;
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.hide();
-        com.example.contactsapp.databinding.ActivityMainBinding activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        ActivityMainBinding activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
 
         loginError = activityMainBinding.loginTvError;
@@ -67,8 +66,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, ContactListActivity.class);
                 intent.putExtra("userid", user.getUserid());
                 intent.putExtra("username", user.getUsername());
-                intent.putExtra("settings", Converters.toBooleanArray(user.getSettings()));
-
                 loginError.setVisibility(View.INVISIBLE);
                 etUsername.setText("");
                 etPassword.setText("");

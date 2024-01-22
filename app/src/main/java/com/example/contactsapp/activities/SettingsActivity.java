@@ -1,5 +1,7 @@
 package com.example.contactsapp.activities;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,11 +11,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
-import com.example.contactsapp.AppDB;
-import com.example.contactsapp.Converters;
 import com.example.contactsapp.R;
-import com.example.contactsapp.daos.UserDao;
-import com.example.contactsapp.entities.User;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -53,36 +51,29 @@ public class SettingsActivity extends AppCompatActivity {
         genderSwitch.setChecked(visibilityOfGender);
         settingsError = findViewById(R.id.settings_tvError);
 
-        contactNameSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            visibilityOfName = isChecked;
-        });
+        contactNameSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> visibilityOfName = isChecked);
 
-        contactNumberSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            visibilityOfNumber = isChecked;
-        });
+        contactNumberSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> visibilityOfNumber = isChecked);
 
-        birthdaySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            visibilityOfBirthday = isChecked;
-        });
+        birthdaySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> visibilityOfBirthday = isChecked);
 
-        genderSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            visibilityOfGender = isChecked;
-        });
+        genderSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> visibilityOfGender = isChecked);
 
         Button btnSave = findViewById(R.id.btnSaveSettings);
         btnSave.setOnClickListener(view -> {
-            if (!visibilityOfName && !visibilityOfNumber && !visibilityOfBirthday && !visibilityOfGender ) {
+            if (!visibilityOfName && !visibilityOfNumber && !visibilityOfBirthday && !visibilityOfGender) {
                 settingsError.setVisibility(View.VISIBLE);
                 return;
             }
-            AppDB db = AppDB.getDBInstance(getApplicationContext());
-            UserDao userDao = db.userDao();
-            User user = userDao.get(username);
             settings = new boolean[]{visibilityOfName, visibilityOfNumber, visibilityOfBirthday, visibilityOfGender};
-            String updatedSettings = Converters.fromBooleanArray(settings);
-            user.setSettings(updatedSettings);
-            userDao.update(user);
-
+            int n = settings.length;
+            SharedPreferences sharedPref = getSharedPreferences(username, Context.MODE_PRIVATE);
+            String[] settingOptions = getResources().getStringArray(R.array.settings_options);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            for (int i = 0; i < n; i++) {
+                editor.putBoolean(settingOptions[i], settings[i]);
+            }
+            editor.apply();
             finish();
         });
 
