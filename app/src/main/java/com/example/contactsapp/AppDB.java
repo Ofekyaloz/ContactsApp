@@ -5,7 +5,6 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.room.TypeConverters;
 
 import com.example.contactsapp.daos.ContactDao;
 import com.example.contactsapp.daos.UserDao;
@@ -14,7 +13,6 @@ import com.example.contactsapp.entities.User;
 
 
 @Database(entities = {Contact.class, User.class}, version = 6)
-@TypeConverters(Converters.class)
 public abstract class AppDB extends RoomDatabase {
     public abstract ContactDao contactDao();
 
